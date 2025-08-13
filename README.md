@@ -19,14 +19,14 @@ A **MERN Stack** based Hospital Management System that allows patients to easily
 
 
 ### 1️⃣ Homepage – Patient Registration
-![Homepage](./screenshots/homepage.png)
+![Homepage](frontend/src/Screenshots/Homepage.png)
 
 ### 2️⃣ Admin Dashboard – Appointment Management
-![Admin Dashboard](./screenshots/admin-dashboard.png)
+![Admin Dashboard](frontend/src/Screenshots/Admin_dashboard.png)
 
 ### 3️⃣ Doctor List – Add & View Doctors
-![Doctor List](./screenshots/doctor-list.png)
-
+![To_Register_doctor_page](frontend/src/Screenshots/Register_doctor.png)
+![Doctor List](frontend/src/Screenshots/Doctors_page.png)
 ---
 
 ## 🚀 Live Demo
