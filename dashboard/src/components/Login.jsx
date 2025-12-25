@@ -18,7 +18,7 @@ const Login = () => {
     try {
       await axios
         .post(
-          "https://hospital-management-ek4x.onrender.com/api/v1/user/login",
+          "http://localhost:4000/api/v1/user/login",
           { email, password, confirmPassword, role: "Admin" },
           {
             withCredentials: true,
@@ -43,37 +43,67 @@ const Login = () => {
   }
 
   return (
-    <>
-      <section className="container form-component">
-        <img src="/logo.jpg" alt="logo" className="logo" />
-        <h1 className="form-title">WELCOME TO AI MEDICAL TECHNOLOGY</h1>
-        <p>Only Admins Are Allowed To Access These Resources!</p>
-        <form onSubmit={handleLogin}>
+  <>
+    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
+
+      <section className="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl p-8">
+
+        {/* Badge */}
+        <div className="flex justify-center mb-6">
+          <h4 className="text-sm font-medium text-emerald-400 border border-emerald-400/40 px-4 py-1 rounded-full">
+            AI Medical Technology
+          </h4>
+        </div>
+
+        {/* Title */}
+        <h1 className="text-2xl font-bold text-white text-center mb-2">
+          Admin Login
+        </h1>
+
+        <p className="text-sm text-slate-400 text-center mb-6">
+          Only authorized administrators can access this dashboard
+        </p>
+
+        {/* Form */}
+        <form onSubmit={handleLogin} className="space-y-4">
+
           <input
-            type="text"
-            placeholder="Email"
+            type="email"
+            placeholder="Admin Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
+
           <input
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
+
           <input
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
+            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
-          <div style={{ justifyContent: "center", alignItems: "center" }}>
-            <button type="submit">Login</button>
-          </div>
+
+          <button
+            type="submit"
+            className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+          >
+            Login
+          </button>
+
         </form>
       </section>
-    </>
-  );
+    </div>
+  </>
+);
+
 };
 
 export default Login;

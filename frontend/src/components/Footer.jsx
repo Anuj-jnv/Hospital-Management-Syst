@@ -43,7 +43,7 @@ const Footer = () => {
         <hr />
         <div className="content">
           <div>
-            <img src="/logo.jpg" alt="logo" className="logo-img"/>
+            <h3>AI Medical Technology</h3>
           </div>
           <div>
             <h4>Quick Links</h4>

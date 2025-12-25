@@ -1,5 +1,4 @@
 import React, { useContext, useEffect } from "react";
-import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home.jsx";
 import Appointment from "./Pages/Appointment.jsx";
@@ -20,7 +19,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://hospital-management-ek4x.onrender.com/api/v1/user/patient/me",
+          "http://localhost:4000/api/v1/user/patient/me",
           {
             withCredentials: true,
           }

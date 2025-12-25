@@ -11,7 +11,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "./components/Sidebar";
 import AddNewAdmin from "./components/AddNewAdmin";
-import "./App.css";
+//import "./App.css";
 
 const App = () => {
   const { isAuthenticated, setIsAuthenticated, admin, setAdmin } =
@@ -21,7 +21,7 @@ const App = () => {
     const fetchUser = async () => {
       try {
         const response = await axios.get(
-          "https://hospital-management-ek4x.onrender.com/api/v1/user/admin/me",
+          "http://localhost:4000/api/v1/user/admin/me",
           {
             withCredentials: true,
           }
