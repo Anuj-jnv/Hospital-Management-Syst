@@ -25,7 +25,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:4000/api/v1/user/patient/logout",
+        "http://localhost:4000/api/v1/user/patient/register/logout",
         { withCredentials: true }
       );
       toast.success(res.data.message);

@@ -10,40 +10,48 @@ const Login = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
   const navigateTo = useNavigate();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const inputClass =
     "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500";
 
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    if (!email || !password) {
+    if (!formData.email || !formData.password) {
       return toast.error("Email and password are required");
     }
 
     try {
       setLoading(true);
-      const res = await axios.post(
+      const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/login",
         {
-          email,
-          password,
+          email: formData.email,
+          password: formData.password,
           role: "Patient",
         },
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        },
+        
       );
 
-      toast.success(res.data.message);
+      toast.success(data.message);
       setIsAuthenticated(true);
       navigateTo("/");
-      setEmail("");
-      setPassword("");
     } catch (error) {
-      toast.error(error.response?.data?.message);
+      toast.error(error.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -62,53 +70,69 @@ const Login = () => {
         {/* Header */}
         <div className="text-center mb-8">
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-            Sign In
+            Welcome Back
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
-            Login to continue to AI Medical Technology
+            Sign in to continue to AI Medical Technology
           </p>
         </div>
 
         {/* Form */}
         <form onSubmit={handleLogin} className="space-y-5">
           {/* Email */}
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={inputClass}
-          />
-
-          {/* Password with Eye Toggle */}
-          <div className="relative">
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Email Address
+            </label>
             <input
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              name="email"
+              type="email"
+              placeholder="you@example.com"
+              value={formData.email}
+              onChange={handleChange}
               className={inputClass}
             />
-            <button
-              type="button"
-              onClick={() => setShowPassword(!showPassword)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white"
-            >
-              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
-            </button>
           </div>
 
-          {/* Footer */}
+          {/* Password */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+              Password
+            </label>
+
+            <div className="relative">
+              <input
+                name="password"
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                className={inputClass}
+              />
+              <button
+                type="button"
+                aria-label="Toggle password visibility"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white"
+              >
+                {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+              </button>
+            </div>
+          </div>
+
+          {/* Helper Links */}
           <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-            <span>Not registered?</span>
+            <Link to="/forgot-password" className="hover:underline">
+              Forgot password?
+            </Link>
             <Link
               to="/register"
               className="font-semibold text-black dark:text-white hover:underline"
             >
-              Register Now
+              Create account
             </Link>
           </div>
-
+ 
           {/* Submit */}
           <div className="flex justify-center pt-4">
             <motion.button
@@ -116,9 +140,9 @@ const Login = () => {
               whileTap={{ scale: 0.95 }}
               disabled={loading}
               type="submit"
-              className="px-12 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 dark:from-gray-800 dark:to-gray-600 disabled:opacity-60"
+              className="w-full py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 dark:from-gray-800 dark:to-gray-600 disabled:opacity-60"
             >
-              {loading ? "Logging in..." : "Login"}
+              {loading ? "Signing in..." : "Sign In"}
             </motion.button>
           </div>
         </form>

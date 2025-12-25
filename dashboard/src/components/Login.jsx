@@ -1,58 +1,57 @@
 import React, { useContext, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { Context } from "../main";
 import axios from "axios";
+import { Context } from "../main";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
-
   const navigateTo = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      return toast.error("Email and password are required");
+    }
+
     try {
-      await axios
-        .post(
-          "http://localhost:4000/api/v1/user/login",
-          { email, password, confirmPassword, role: "Admin" },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setEmail("");
-          setPassword("");
-          setConfirmPassword("");
-        });
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/user/login",
+        { email, password, role: "Admin" },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(data.message);
+      setIsAuthenticated(true);
+      navigateTo("/");
+
+      setEmail("");
+      setPassword("");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Login failed");
     }
   };
 
   if (isAuthenticated) {
-    return <Navigate to={"/"} />;
+    return <Navigate to="/" />;
   }
 
   return (
-  <>
     <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-
-      <section className="w-full max-w-md bg-slate-900/80 backdrop-blur-xl border border-slate-700 rounded-2xl shadow-2xl p-8">
+      <section className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-8">
 
         {/* Badge */}
         <div className="flex justify-center mb-6">
-          <h4 className="text-sm font-medium text-emerald-400 border border-emerald-400/40 px-4 py-1 rounded-full">
+          <span className="text-sm font-medium text-emerald-400 border border-emerald-400/40 px-4 py-1 rounded-full">
             AI Medical Technology
-          </h4>
+          </span>
         </div>
 
         {/* Title */}
@@ -83,17 +82,9 @@ const Login = () => {
             className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
           />
 
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-
           <button
             type="submit"
-            className="w-full mt-4 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition duration-200"
           >
             Login
           </button>
@@ -101,9 +92,7 @@ const Login = () => {
         </form>
       </section>
     </div>
-  </>
-);
-
+  );
 };
 
 export default Login;

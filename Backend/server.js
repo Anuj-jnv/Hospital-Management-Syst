@@ -8,12 +8,6 @@ cloudinary.v2.config({
     api_secret: process.env.CLOUDINARY_API_SECRET,
   });
 
-app.get("/", (req, res)=>{
-  res.send("Server is working");
-})
-
-
-  
 
 app.listen(process.env.PORT, ()=>{
     console.log(` Server is listening on ${process.env.PORT}`);

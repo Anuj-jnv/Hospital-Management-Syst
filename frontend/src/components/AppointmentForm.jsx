@@ -9,7 +9,7 @@ const AppointmentForm = () => {
     lastName: "",
     email: "",
     phone: "",
-    nic: "",
+    governmentId: "",
     dob: "",
     gender: "",
     appointmentDate: "",
@@ -35,8 +35,11 @@ const AppointmentForm = () => {
     "ENT",
   ];
 
+  /* Same input style as Login */
   const inputClass =
-    "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500";
+    "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500";
+
+  const selectClass = inputClass + " cursor-pointer";
 
   useEffect(() => {
     const fetchDoctors = async () => {
@@ -46,7 +49,7 @@ const AppointmentForm = () => {
           { withCredentials: true }
         );
         setDoctors(data.doctors);
-      } catch (error) {
+      } catch {
         toast.error("Failed to load doctors");
       }
     };
@@ -61,23 +64,27 @@ const AppointmentForm = () => {
     });
   };
 
-  const handleAppointment = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (
-      !formData.firstName ||
-      !formData.lastName ||
-      !formData.email ||
-      !formData.phone ||
-      !formData.nic ||
-      !formData.dob ||
-      !formData.gender ||
-      !formData.appointmentDate ||
-      !formData.department ||
-      !formData.doctorFirstName ||
-      !formData.address
-    ) {
-      return toast.error("All fields are required");
+    const requiredFields = [
+      "firstName",
+      "lastName",
+      "email",
+      "phone",
+      "nic",
+      "dob",
+      "gender",
+      "appointmentDate",
+      "department",
+      "doctorFirstName",
+      "address",
+    ];
+
+    for (let field of requiredFields) {
+      if (!formData[field]) {
+        return toast.error("All fields are required");
+      }
     }
 
     try {
@@ -126,17 +133,16 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section className="w-full py-24 bg-gray-50 dark:bg-black">
+    <section className="min-h-screen bg-gray-50 dark:bg-black px-6 py-24">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-5xl mx-auto px-6"
+        className="max-w-5xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-10"
       >
         {/* Header */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white">
+        <div className="text-center mb-10">
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
             Book an Appointment
           </h2>
           <p className="text-gray-600 dark:text-gray-400 mt-2">
@@ -145,170 +151,183 @@ const AppointmentForm = () => {
         </div>
 
         {/* Form */}
-        <form
-          onSubmit={handleAppointment}
-          className="bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-8 space-y-6"
-        >
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <input
-              name="firstName"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={handleChange}
-              className={inputClass}
-            />
-            <input
-              name="lastName"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={handleChange}
-              className={inputClass}
-            />
+            <Field label="First Name">
+              <input
+                name="firstName"
+                placeholder="John"
+                value={formData.firstName}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </Field>
+
+            <Field label="Last Name">
+              <input
+                name="lastName"
+                placeholder="Doe"
+                value={formData.lastName}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </Field>
           </div>
 
           {/* Email & Phone */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <input
-              name="email"
-              type="email"
-              placeholder="Email Address"
-              value={formData.email}
-              onChange={handleChange}
-              className={inputClass}
-            />
-            <input
-              name="phone"
-              type="tel"
-              placeholder="Mobile Number"
-              value={formData.phone}
-              onChange={handleChange}
-              className={inputClass}
-            />
+            <Field label="Email">
+              <input
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </Field>
+
+            <Field label="Mobile Number">
+              <input
+                type="tel"
+                name="phone"
+                placeholder="9876543210"
+                value={formData.phone}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </Field>
           </div>
 
           {/* NIC & DOB */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <input
-              name="nic"
-              placeholder="NIC Number"
-              value={formData.nic}
-              onChange={handleChange}
-              className={inputClass}
-            />
-
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Date of Birth
-              </label>
+            <Field label="Government ID (Optional)">
               <input
-                name="dob"
+                name="governmentId"
+                placeholder="Aadhaar / CNIC / Passport (optional)"
+                value={formData.governmentId}
+                onChange={handleChange}
+                className={inputClass}
+              />
+            </Field>
+
+
+            <Field label="Date of Birth">
+              <input
                 type="date"
+                name="dob"
                 value={formData.dob}
                 onChange={handleChange}
                 className={inputClass}
               />
-            </div>
+            </Field>
           </div>
 
           {/* Gender & Appointment Date */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleChange}
-              className={`${inputClass} ${
-                formData.gender ? "" : "text-gray-400"
-              }`}
-            >
-              <option value="" disabled>
-                Select Gender
-              </option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
+            <Field label="Gender">
+              <select
+                name="gender"
+                value={formData.gender}
+                onChange={handleChange}
+                className={selectClass}
+              >
+                <option value="" disabled>
+                  Select Gender
+                </option>
+                <option className="text-black" value="Male">
+                  Male
+                </option>
+                <option className="text-black" value="Female">
+                  Female
+                </option>
+              </select>
+            </Field>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                Appointment Date
-              </label>
+            <Field label="Appointment Date">
               <input
-                name="appointmentDate"
                 type="date"
+                name="appointmentDate"
                 value={formData.appointmentDate}
                 onChange={handleChange}
                 className={inputClass}
               />
-            </div>
+            </Field>
           </div>
 
           {/* Department & Doctor */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <select
-              name="department"
-              value={formData.department}
-              onChange={(e) =>
-                setFormData({
-                  ...formData,
-                  department: e.target.value,
-                  doctorFirstName: "",
-                  doctorLastName: "",
-                })
-              }
-              className={inputClass}
-            >
-              {departmentsArray.map((dept, idx) => (
-                <option key={idx} value={dept}>
-                  {dept}
-                </option>
-              ))}
-            </select>
-
-            <select
-              value={`${formData.doctorFirstName} ${formData.doctorLastName}`}
-              onChange={(e) => {
-                const [first, last] = e.target.value.split(" ");
-                setFormData({
-                  ...formData,
-                  doctorFirstName: first,
-                  doctorLastName: last,
-                });
-              }}
-              disabled={!formData.department}
-              className={`${inputClass} ${
-                formData.doctorFirstName ? "" : "text-gray-400"
-              }`}
-            >
-              <option value="" disabled>
-                Select Doctor
-              </option>
-              {doctors
-                .filter(
-                  (doc) => doc.doctorDepartment === formData.department
-                )
-                .map((doc, idx) => (
-                  <option
-                    key={idx}
-                    value={`${doc.firstName} ${doc.lastName}`}
-                  >
-                    {doc.firstName} {doc.lastName}
+            <Field label="Department">
+              <select
+                name="department"
+                value={formData.department}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    department: e.target.value,
+                    doctorFirstName: "",
+                    doctorLastName: "",
+                  })
+                }
+                className={selectClass}
+              >
+                {departmentsArray.map((dept, i) => (
+                  <option key={i} className="text-black" value={dept}>
+                    {dept}
                   </option>
                 ))}
-            </select>
+              </select>
+            </Field>
+
+            <Field label="Doctor">
+              <select
+                value={`${formData.doctorFirstName} ${formData.doctorLastName}`}
+                onChange={(e) => {
+                  const [first, last] = e.target.value.split(" ");
+                  setFormData({
+                    ...formData,
+                    doctorFirstName: first,
+                    doctorLastName: last,
+                  });
+                }}
+                className={selectClass}
+              >
+                <option value="" disabled>
+                  Select Doctor
+                </option>
+                {doctors
+                  .filter(
+                    (doc) =>
+                      doc.doctorDepartment === formData.department
+                  )
+                  .map((doc, i) => (
+                    <option
+                      key={i}
+                      className="text-black"
+                      value={`${doc.firstName} ${doc.lastName}`}
+                    >
+                      {doc.firstName} {doc.lastName}
+                    </option>
+                  ))}
+              </select>
+            </Field>
           </div>
 
           {/* Address */}
-          <textarea
-            name="address"
-            rows={5}
-            placeholder="Address"
-            value={formData.address}
-            onChange={handleChange}
-            className={inputClass + " resize-none"}
-          />
+          <Field label="Address">
+            <textarea
+              rows={4}
+              name="address"
+              placeholder="Enter your address"
+              value={formData.address}
+              onChange={handleChange}
+              className={inputClass + " resize-none"}
+            />
+          </Field>
 
           {/* Checkbox */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 pt-2">
             <input
               type="checkbox"
               name="hasVisited"
@@ -328,7 +347,7 @@ const AppointmentForm = () => {
               whileTap={{ scale: 0.95 }}
               disabled={loading}
               type="submit"
-              className="px-12 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 dark:from-gray-800 dark:to-gray-600 disabled:opacity-60"
+              className="px-12 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 disabled:opacity-60"
             >
               {loading ? "Submitting..." : "Get Appointment"}
             </motion.button>
@@ -338,5 +357,15 @@ const AppointmentForm = () => {
     </section>
   );
 };
+
+/* Reusable Field Wrapper */
+const Field = ({ label, children }) => (
+  <div className="flex flex-col gap-1">
+    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+      {label}
+    </label>
+    {children}
+  </div>
+);
 
 export default AppointmentForm;

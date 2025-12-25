@@ -1,21 +1,23 @@
 import { catchAsyncErrors } from "../middlewares/catchAsyncErrors.js";
-import ErrorHandler from "../middlewares/error.js";
-import { Message } from "../models/messageSchema.js";
+import {
+  sendMessageService,
+  getAllMessagesService,
+} from "../services/messageService.js";
 
-export const sendMessage = catchAsyncErrors(async (req, res, next) => {
-  const { firstName, lastName, email, phone, message } = req.body;
-  if (!firstName || !lastName || !email || !phone || !message) {
-    return next(new ErrorHandler("Please Fill Full Form!", 400));
-  }
-  await Message.create({ firstName, lastName, email, phone, message });
+// SEND MESSAGE 
+export const sendMessage = catchAsyncErrors(async (req, res) => {
+  await sendMessageService(req.body);
+
   res.status(200).json({
     success: true,
-    message: "Message Sent!",
+    message: "Message sent successfully",
   });
 });
 
-export const getAllMessages = catchAsyncErrors(async (req, res, next) => {
-  const messages = await Message.find();
+// GET ALL MESSAGES 
+export const getAllMessages = catchAsyncErrors(async (req, res) => {
+  const messages = await getAllMessagesService();
+
   res.status(200).json({
     success: true,
     messages,
