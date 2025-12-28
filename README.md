@@ -37,7 +37,7 @@ A **MERN Stack** based Hospital Management System that allows patients to easily
 
 ## 🛠️ Tech Stack
 
-- **Frontend:** React.js, HTML5, CSS3, JavaScript
+- **Frontend:** React.js, HTML5, CSS3, JavaScript, Tailwind CSS, Framer-motion, JWT 
 - **Backend:** Node.js, Express.js
 - **Database:** MongoDB
 - **Hosting:** (e.g., Vercel, Netlify, or Heroku)
