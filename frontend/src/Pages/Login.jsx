@@ -18,8 +18,11 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
+  /* INPUT STYLE — SAME AS REGISTER / APPOINTMENT */
   const inputClass =
-    "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-transparent text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500";
+    "w-full px-4 py-3 rounded-lg border border-gray-300 bg-white " +
+    "text-gray-900 placeholder-gray-500 " +
+    "focus:outline-none focus:ring-2 focus:ring-blue-600";
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -38,12 +41,12 @@ const Login = () => {
         "http://localhost:4000/api/v1/user/patient/login",
         {
           email: formData.email,
-          password: formData.password,      
+          password: formData.password,
         },
-        { withCredentials: true,
+        {
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
-        },
-        
+        }
       );
 
       toast.success(data.message);
@@ -59,30 +62,30 @@ const Login = () => {
   if (isAuthenticated) return <Navigate to="/" />;
 
   return (
-    <section className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-black px-6 py-24">
+    <section className="min-h-screen flex items-center justify-center bg-slate-50 px-6 py-28">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-10"
+        className="
+          w-full max-w-md bg-white
+          rounded-2xl shadow-lg p-10
+        "
       >
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        {/* HEADER */}
+        <div className="text-center mb-10">
+          <h2 className="text-4xl font-extrabold tracking-tight text-gray-900">
             Welcome Back
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-lg text-gray-700 mt-3">
             Sign in to continue to AI Medical Technology
           </p>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-5">
-          {/* Email */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Email Address
-            </label>
+        {/* FORM */}
+        <form onSubmit={handleLogin} className="space-y-6">
+          {/* EMAIL */}
+          <Field label="Email Address">
             <input
               name="email"
               type="email"
@@ -91,14 +94,10 @@ const Login = () => {
               onChange={handleChange}
               className={inputClass}
             />
-          </div>
+          </Field>
 
-          {/* Password */}
-          <div className="flex flex-col gap-1">
-            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
-              Password
-            </label>
-
+          {/* PASSWORD */}
+          <Field label="Password">
             <div className="relative">
               <input
                 name="password"
@@ -112,34 +111,37 @@ const Login = () => {
                 type="button"
                 aria-label="Toggle password visibility"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-black dark:hover:text-white"
+                className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
               >
                 {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
               </button>
             </div>
-          </div>
+          </Field>
 
-          {/* Helper Links */}
-          <div className="flex items-center justify-between text-sm text-gray-600 dark:text-gray-400">
-            <Link to="/forgot-password" className="hover:underline">
-              Forgot password?
-            </Link>
+          {/* HELPERS */}
+          <div className="flex items-center justify-between text-sm text-gray-600">
+            <span>Forgot Password?</span>
             <Link
               to="/register"
-              className="font-semibold text-black dark:text-white hover:underline"
+              className="font-semibold text-blue-600 hover:underline"
             >
               Create account
             </Link>
           </div>
- 
-          {/* Submit */}
-          <div className="flex justify-center pt-4">
+
+          {/* SUBMIT */}
+          <div className="flex justify-center pt-6">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               disabled={loading}
               type="submit"
-              className="w-full py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 dark:from-gray-800 dark:to-gray-600 disabled:opacity-60"
+              className="
+                w-full py-3 rounded-full
+                text-lg font-semibold text-white
+                bg-blue-600 hover:bg-blue-700
+                disabled:opacity-60 transition
+              "
             >
               {loading ? "Signing in..." : "Sign In"}
             </motion.button>
@@ -149,5 +151,15 @@ const Login = () => {
     </section>
   );
 };
+
+/* FIELD — SAME TYPOGRAPHY SYSTEM */
+const Field = ({ label, children }) => (
+  <div className="flex flex-col gap-2">
+    <label className="text-sm font-semibold text-gray-700">
+      {label}
+    </label>
+    {children}
+  </div>
+);
 
 export default Login;

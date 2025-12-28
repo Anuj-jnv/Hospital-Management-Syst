@@ -78,18 +78,20 @@ export const getUserDetails = catchAsyncErrors(async (req, res) => {
 
 // LOGOUT PATIENT/ADMIN
 export const logoutPatient = catchAsyncErrors(async (req, res) => {
+  res.setHeader("Cache-Control", "no-store");
   res
     .status(200)
-    .cookie("token", "", {
+    .clearCookie("token", {
       httpOnly: true,
-      expires: new Date(0),
-      sameSite: "Lax",
-      secure: false,
+      sameSite: "Lax",        // MUST MATCH LOGIN
+      secure: false,          // MUST MATCH LOGIN (true only in HTTPS)
+      path: "/",             // MUST MATCH LOGIN
     })
     .json({
       success: true,
       message: "Logged out successfully",
     });
 });
+
 
 export const logoutAdmin = logoutPatient;

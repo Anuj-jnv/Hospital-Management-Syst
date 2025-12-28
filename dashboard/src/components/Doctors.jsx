@@ -106,7 +106,7 @@ const Doctors = () => {
                     label="DOB"
                     value={doc.dob?.substring(0, 10)}
                   />
-                  <InfoRow icon={<IdCard size={16} />} label="NIC" value={doc.nic} />
+                  <InfoRow icon={<IdCard size={16} />} label="Government ID" value={doc.governmentId} />
                   <InfoRow icon={<User size={16} />} label="Gender" value={doc.gender} />
                 </div>
               </div>

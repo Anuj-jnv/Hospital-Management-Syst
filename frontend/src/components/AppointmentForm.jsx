@@ -34,9 +34,10 @@ const AppointmentForm = () => {
     "ENT",
   ];
 
-  /* Same input style as Login */
+  /* INPUT STYLES — CONSISTENT WITH HERO / BIOGRAPHY */
   const inputClass =
-    "w-full px-4 py-3 rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-black dark:focus:ring-gray-500";
+    "w-full px-4 py-3 rounded-lg border border-gray-300 bg-white text-gray-900 " +
+    "placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-600";
 
   const selectClass = inputClass + " cursor-pointer";
 
@@ -92,23 +93,13 @@ const AppointmentForm = () => {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/appointment/post",
         {
-          firstName: formData.firstName,
-          lastName: formData.lastName,
-          email: formData.email,
-          phone: formData.phone,
-          governmentId: formData.governmentId,
-          dob: formData.dob,
-          gender: formData.gender,
-          appointmentDate: formData.appointmentDate,
-          department: formData.department,
-          doctorName: formData.doctorName,
+          ...formData,
           hasVisited: Boolean(formData.hasVisited),
-          address: formData.address,
         },
-        { withCredentials: true,
+        {
+          withCredentials: true,
           headers: { "Content-Type": "application/json" },
-         }
-
+        }
       );
 
       toast.success(data.message);
@@ -134,27 +125,30 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section className="min-h-screen bg-gray-50 dark:bg-black px-6 py-24">
+    <section className="min-h-screen bg-slate-50 px-6 py-28">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.6 }}
-        className="max-w-5xl mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-xl p-10"
+        className="
+          max-w-5xl mx-auto bg-white
+          rounded-2xl shadow-lg p-10
+        "
       >
-        {/* Header */}
-        <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
+        {/* HEADER */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl font-extrabold tracking-tight text-gray-900">
             Book an Appointment
           </h2>
-          <p className="text-gray-600 dark:text-gray-400 mt-2">
+          <p className="text-lg text-gray-700 mt-3">
             Schedule your visit with our expert doctors
           </p>
         </div>
 
-        {/* Form */}
+        {/* FORM */}
         <form id="appointment-form" onSubmit={handleSubmit} className="space-y-6">
-          {/* Name */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          {/* NAME */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Field label="First Name">
               <input
                 name="firstName"
@@ -176,8 +170,8 @@ const AppointmentForm = () => {
             </Field>
           </div>
 
-          {/* Email & Phone */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          {/* EMAIL & PHONE */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Field label="Email">
               <input
                 type="email"
@@ -201,18 +195,17 @@ const AppointmentForm = () => {
             </Field>
           </div>
 
-          {/* NIC & DOB */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          {/* ID & DOB */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Field label="Government ID">
               <input
                 name="governmentId"
-                placeholder="Aadhaar / CNIC / Passport"
+                placeholder="Aadhaar / Passport"
                 value={formData.governmentId}
                 onChange={handleChange}
                 className={inputClass}
               />
             </Field>
-
 
             <Field label="Date of Birth">
               <input
@@ -225,8 +218,8 @@ const AppointmentForm = () => {
             </Field>
           </div>
 
-          {/* Gender & Appointment Date */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          {/* GENDER & DATE */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Field label="Gender">
               <select
                 name="gender"
@@ -234,15 +227,11 @@ const AppointmentForm = () => {
                 onChange={handleChange}
                 className={selectClass}
               >
-                <option value="" disabled  >
+                <option value="" disabled>
                   Select Gender
                 </option>
-                <option className="font-semibold text-gray-900 dark:text-white" value="Male">
-                  Male
-                </option>
-                <option className=" font-semibold text-gray-900 dark:text-white" value="Female">
-                  Female
-                </option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
               </select>
             </Field>
 
@@ -257,8 +246,8 @@ const AppointmentForm = () => {
             </Field>
           </div>
 
-          {/* Department & Doctor */}
-          <div className="grid sm:grid-cols-2 gap-5">
+          {/* DEPARTMENT & DOCTOR */}
+          <div className="grid sm:grid-cols-2 gap-6">
             <Field label="Department">
               <select
                 name="department"
@@ -273,7 +262,7 @@ const AppointmentForm = () => {
                 className={selectClass}
               >
                 {departmentsArray.map((dept, i) => (
-                  <option key={i} className=" font-semibold text-gray-900 dark:text-white" value={dept}>
+                  <option key={i} value={dept}>
                     {dept}
                   </option>
                 ))}
@@ -283,12 +272,9 @@ const AppointmentForm = () => {
             <Field label="Doctor">
               <select
                 value={formData.doctorName}
-                onChange={(e) => {
-                  setFormData({
-                    ...formData,
-                    doctorName: e.target.value,
-                  });
-                }}
+                onChange={(e) =>
+                  setFormData({ ...formData, doctorName: e.target.value })
+                }
                 className={selectClass}
               >
                 <option value="" disabled>
@@ -296,13 +282,11 @@ const AppointmentForm = () => {
                 </option>
                 {doctors
                   .filter(
-                    (doc) =>
-                      doc.doctorDepartment === formData.department
+                    (doc) => doc.doctorDepartment === formData.department
                   )
                   .map((doc, i) => (
                     <option
                       key={i}
-                      className="font-semibold text-gray-900 dark:text-white"
                       value={`${doc.firstName} ${doc.lastName}`}
                     >
                       {doc.firstName} {doc.lastName}
@@ -312,7 +296,7 @@ const AppointmentForm = () => {
             </Field>
           </div>
 
-          {/* Address */}
+          {/* ADDRESS */}
           <Field label="Address">
             <textarea
               rows={4}
@@ -324,28 +308,33 @@ const AppointmentForm = () => {
             />
           </Field>
 
-          {/* Checkbox */}
+          {/* CHECKBOX */}
           <div className="flex items-center gap-3 pt-2">
             <input
               type="checkbox"
               name="hasVisited"
               checked={formData.hasVisited}
               onChange={handleChange}
-              className="h-5 w-5"
+              className="h-5 w-5 accent-blue-600"
             />
-            <span className="text-gray-700 dark:text-gray-300">
+            <span className="text-gray-700">
               Have you visited before?
             </span>
           </div>
 
-          {/* Submit */}
-          <div className="flex justify-center pt-6">
+          {/* SUBMIT */}
+          <div className="flex justify-center pt-8">
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               disabled={loading}
               type="submit"
-              className="px-12 py-3 rounded-full text-white font-semibold bg-gradient-to-r from-black to-gray-700 disabled:opacity-60"
+              className="
+                px-14 py-3 rounded-full
+                text-white text-lg font-semibold
+                bg-blue-600 hover:bg-blue-700
+                disabled:opacity-60 transition
+              "
             >
               {loading ? "Submitting..." : "Get Appointment"}
             </motion.button>
@@ -356,10 +345,10 @@ const AppointmentForm = () => {
   );
 };
 
-/* Reusable Field Wrapper */
+/* FIELD WRAPPER — TYPOGRAPHY MATCHED */
 const Field = ({ label, children }) => (
-  <div className="flex flex-col gap-1">
-    <label className="text-sm font-medium text-gray-700 dark:text-gray-300">
+  <div className="flex flex-col gap-2">
+    <label className="text-sm font-semibold text-gray-700">
       {label}
     </label>
     {children}

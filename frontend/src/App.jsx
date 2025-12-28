@@ -4,6 +4,7 @@ import axios from "axios";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import ScrollToTop from "./components/ScrollToTop.jsx";
+import Section from "./components/Layout/Section.jsx";
 
 import { Context } from "./main";
 import Navbar from "./components/Navbar";
@@ -62,7 +63,9 @@ const App = () => {
         <Route path="/login" element={<Login />} />
       </Routes>
 
-      <Footer />
+      
+        <Footer />
+      
       <ToastContainer position="top-center" />
     </Router>
   );

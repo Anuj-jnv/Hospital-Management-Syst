@@ -62,7 +62,11 @@ export const addAdminService = async ({
   firstName,
   lastName,
   email,
+  phone,
+  governmentId,
+  gender,
   password,
+  dob
 }) => {
   const adminExists = await User.findOne({ email });
   if (adminExists) {
@@ -73,6 +77,9 @@ export const addAdminService = async ({
     firstName,
     lastName,
     email,
+    phone,
+    governmentId,
+    gender,
     password,
     role: "Admin",
   });
@@ -123,7 +130,9 @@ export const addDoctorService = async (data, files) => {
 
 // GET DOCTORS
 export const getDoctorsService = async () => {
-  return await User.find({ role: "Doctor" }).select(
-    "firstName lastName doctorDepartment"
-  );
+  return await User.find({ role: "Doctor" })
+    .select("firstName lastName doctorDepartment email phone docAvatar")
+    .sort({ lastName: 1 })
+    .lean();
 };
+

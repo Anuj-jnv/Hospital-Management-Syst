@@ -12,7 +12,7 @@ const Sidebar = () => {
   const handleLogout = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/v1/user/admin/logout",
+        "http://localhost:4000/api/v1/user/logout",
         { withCredentials: true }
       );
 
