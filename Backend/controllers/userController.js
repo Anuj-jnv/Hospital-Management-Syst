@@ -4,7 +4,8 @@ import { generateToken } from "../utils/jwtToken.js";
 
 import {
   registerPatientService,
-  loginUserService,
+  patientLoginService,
+  adminLoginService,
   addAdminService,
   addDoctorService,
   getDoctorsService,
@@ -13,7 +14,7 @@ import {
 // PATIENT REGISTER 
 export const patientRegister = catchAsyncErrors(async (req, res, next) => {
   const { firstName, lastName, email, password } = req.body;
-  console.log(req.body);
+  // console.log(req.body);
 
   if (!firstName || !lastName || !email || !password) {
     return next(new ErrorHandler("All fields are required", 400));
@@ -24,11 +25,16 @@ export const patientRegister = catchAsyncErrors(async (req, res, next) => {
 });
 
 //  LOGIN 
-export const login = catchAsyncErrors(async (req, res, next) => {
-  const user = await loginUserService(req.body);
-  generateToken(user, "Login successful", 200, res);
+export const patientLogin = catchAsyncErrors(async (req, res) => {
+  const user = await patientLoginService(req.body);
+  generateToken(user, "Patient login successful", 200, res);
 });
 
+/* ===================== ADMIN LOGIN ===================== */
+export const adminLogin = catchAsyncErrors(async (req, res) => {
+  const user = await adminLoginService(req.body);
+  generateToken(user, "Admin login successful", 200, res);
+});
 
 // ADD ADMIN 
 export const addNewAdmin = catchAsyncErrors(async (req, res) => {
@@ -77,8 +83,8 @@ export const logoutPatient = catchAsyncErrors(async (req, res) => {
     .cookie("token", "", {
       httpOnly: true,
       expires: new Date(0),
-      secure: process.env.NODE_ENV === "production",
-      sameSite: "strict",
+      sameSite: "Lax",
+      secure: false,
     })
     .json({
       success: true,

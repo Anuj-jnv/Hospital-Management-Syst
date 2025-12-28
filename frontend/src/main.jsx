@@ -5,11 +5,16 @@ import "./index.css";
 
 export const Context = createContext({
   isAuthenticated: false,
+  user: {},
+  loading: true,
+
 });
 
 const AppWrapper = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState({});
+  const [loading, setLoading] = useState(true);
+
 
   return (
     <Context.Provider
@@ -18,6 +23,8 @@ const AppWrapper = () => {
         setIsAuthenticated,
         user,
         setUser,
+        loading,
+        setLoading
       }}
     >
       <App />

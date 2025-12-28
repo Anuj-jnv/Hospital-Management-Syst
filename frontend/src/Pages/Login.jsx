@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 import { Link, useNavigate, Navigate } from "react-router-dom";
@@ -35,11 +35,10 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/login",
+        "http://localhost:4000/api/v1/user/patient/login",
         {
           email: formData.email,
-          password: formData.password,
-          role: "Patient",
+          password: formData.password,      
         },
         { withCredentials: true,
           headers: { "Content-Type": "application/json" },

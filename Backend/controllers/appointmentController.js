@@ -8,6 +8,7 @@ import {
 
 // CREATE APPOINTMENT 
 export const postAppointment = catchAsyncErrors(async (req, res) => {
+  console.log(req.body);
   const appointment = await createAppointmentService(
     req.body,
     req.user._id

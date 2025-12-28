@@ -9,6 +9,9 @@ export const registerPatientService = async ({
   email,
   password,
 }) => {
+  if (!firstName || !lastName || !email || !password) {
+    throw new ErrorHandler("All fields are required", 400);
+  }
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new ErrorHandler("User already registered", 409);
@@ -24,22 +27,34 @@ export const registerPatientService = async ({
 };
 
 // LOGIN 
-export const loginUserService = async ({ email, password, role }) => {
-  if (!email || !password || !role) {
-    throw new ErrorHandler("Email, password and role are required", 400);
-  }
+export const patientLoginService = async ({ email, password }) => {
+  const user = await User.findOne({ email, role: "Patient" }).select("+password");
 
-  const user = await User.findOne({ email, role }).select("+password");
   if (!user) {
+    throw new ErrorHandler("Patient not found", 401);
+  }
+
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
     throw new ErrorHandler("Invalid credentials", 401);
   }
 
-  const isPasswordMatched = await user.comparePassword(password);
-  if (!isPasswordMatched) {
+  return user;
+};
+
+export const adminLoginService = async ({ email, password }) => {
+  const user = await User.findOne({ email, role: "Admin" }).select("+password");
+
+  if (!user) {
+    throw new ErrorHandler("Admin not found", 401);
+  }
+
+  const isMatch = await user.comparePassword(password);
+  if (!isMatch) {
     throw new ErrorHandler("Invalid credentials", 401);
   }
 
-  return user; // controller will generate token
+  return user;
 };
 
 // ADD ADMIN 

@@ -7,10 +7,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Context } from "../main";
 
+
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const { isAuthenticated, setIsAuthenticated } = useContext(Context);
+  const { isAuthenticated, setIsAuthenticated,setUser } = useContext(Context);
   const navigateTo = useNavigate();
 
   /* Scroll Detection */
@@ -23,18 +24,26 @@ const Navbar = () => {
   }, []);
 
   const handleLogout = async () => {
-    try {
-      const res = await axios.get(
-        "http://localhost:4000/api/v1/user/patient/register/logout",
-        { withCredentials: true }
-      );
-      toast.success(res.data.message);
-      setIsAuthenticated(false);
-      setShow(false);
-    } catch (err) {
-      toast.error(err.response?.data?.message);
-    }
-  };
+  try {
+    const { data } = await axios.get(
+      "http://localhost:4000/api/v1/user/logout",
+      { withCredentials: true }
+    );
+
+    toast.success(data.message);
+
+    // ✅ IMPORTANT: update state immediately
+    setIsAuthenticated(false);
+    setUser({});
+
+    // optional: redirect
+    navigateTo("/login");
+
+  } catch (error) {
+    toast.error(error.response?.data?.message || "Logout failed");
+  }
+};
+
 
   const linkClass = ({ isActive }) =>
     `relative font-medium transition ${

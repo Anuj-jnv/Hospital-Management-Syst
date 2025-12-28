@@ -9,13 +9,12 @@ export const createAppointmentService = async (data, patientId) => {
     lastName,
     email,
     phone,
-    nic,
+    governmentId,
     dob,
     gender,
-    appointment_date,
+    appointmentDate,
     department,
-    doctor_firstName,
-    doctor_lastName,
+    doctorName,
     hasVisited,
     address,
   } = data;
@@ -25,13 +24,12 @@ export const createAppointmentService = async (data, patientId) => {
     !lastName ||
     !email ||
     !phone ||
-    !nic ||
+    !governmentId ||
     !dob ||
     !gender ||
-    !appointment_date ||
+    !appointmentDate ||
     !department ||
-    !doctor_firstName ||
-    !doctor_lastName ||
+    !doctorName ||
     !address
   ) {
     throw new ErrorHandler("Please fill all required fields", 400);
@@ -39,8 +37,7 @@ export const createAppointmentService = async (data, patientId) => {
 
   /* Find doctor */
   const doctors = await User.find({
-    firstName: doctor_firstName,
-    lastName: doctor_lastName,
+    doctorName: doctorName,
     role: "Doctor",
     doctorDepartment: department,
   });
@@ -63,15 +60,12 @@ export const createAppointmentService = async (data, patientId) => {
     lastName,
     email,
     phone,
-    nic,
+    governmentId: governmentId,
     dob,
     gender,
-    appointment_date,
+    appointmentDate,
     department,
-    doctor: {
-      firstName: doctor_firstName,
-      lastName: doctor_lastName,
-    },
+    doctor: doctorName,
     hasVisited,
     address,
     doctorId: doctor._id,

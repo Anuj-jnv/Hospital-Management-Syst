@@ -14,8 +14,7 @@ const AppointmentForm = () => {
     gender: "",
     appointmentDate: "",
     department: "Pediatrics",
-    doctorFirstName: "",
-    doctorLastName: "",
+    doctorName: "",
     address: "",
     hasVisited: false,
   });
@@ -72,12 +71,13 @@ const AppointmentForm = () => {
       "lastName",
       "email",
       "phone",
-      "nic",
+      "governmentId",
       "dob",
       "gender",
       "appointmentDate",
       "department",
-      "doctorFirstName",
+      "doctorName",
+      "hasVisited",
       "address",
     ];
 
@@ -96,17 +96,19 @@ const AppointmentForm = () => {
           lastName: formData.lastName,
           email: formData.email,
           phone: formData.phone,
-          nic: formData.nic,
+          governmentId: formData.governmentId,
           dob: formData.dob,
           gender: formData.gender,
-          appointment_date: formData.appointmentDate,
+          appointmentDate: formData.appointmentDate,
           department: formData.department,
-          doctor_firstName: formData.doctorFirstName,
-          doctor_lastName: formData.doctorLastName,
+          doctorName: formData.doctorName,
           hasVisited: Boolean(formData.hasVisited),
           address: formData.address,
         },
-        { withCredentials: true }
+        { withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+         }
+
       );
 
       toast.success(data.message);
@@ -115,13 +117,12 @@ const AppointmentForm = () => {
         lastName: "",
         email: "",
         phone: "",
-        nic: "",
+        governmentId: "",
         dob: "",
         gender: "",
         appointmentDate: "",
         department: "Pediatrics",
-        doctorFirstName: "",
-        doctorLastName: "",
+        doctorName: "",
         address: "",
         hasVisited: false,
       });
@@ -151,7 +152,7 @@ const AppointmentForm = () => {
         </div>
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-6">
+        <form id="appointment-form" onSubmit={handleSubmit} className="space-y-6">
           {/* Name */}
           <div className="grid sm:grid-cols-2 gap-5">
             <Field label="First Name">
@@ -202,10 +203,10 @@ const AppointmentForm = () => {
 
           {/* NIC & DOB */}
           <div className="grid sm:grid-cols-2 gap-5">
-            <Field label="Government ID (Optional)">
+            <Field label="Government ID">
               <input
                 name="governmentId"
-                placeholder="Aadhaar / CNIC / Passport (optional)"
+                placeholder="Aadhaar / CNIC / Passport"
                 value={formData.governmentId}
                 onChange={handleChange}
                 className={inputClass}
@@ -233,13 +234,13 @@ const AppointmentForm = () => {
                 onChange={handleChange}
                 className={selectClass}
               >
-                <option value="" disabled>
+                <option value="" disabled  >
                   Select Gender
                 </option>
-                <option className="text-black" value="Male">
+                <option className="font-semibold text-gray-900 dark:text-white" value="Male">
                   Male
                 </option>
-                <option className="text-black" value="Female">
+                <option className=" font-semibold text-gray-900 dark:text-white" value="Female">
                   Female
                 </option>
               </select>
@@ -266,14 +267,13 @@ const AppointmentForm = () => {
                   setFormData({
                     ...formData,
                     department: e.target.value,
-                    doctorFirstName: "",
-                    doctorLastName: "",
+                    doctorName: "",
                   })
                 }
                 className={selectClass}
               >
                 {departmentsArray.map((dept, i) => (
-                  <option key={i} className="text-black" value={dept}>
+                  <option key={i} className=" font-semibold text-gray-900 dark:text-white" value={dept}>
                     {dept}
                   </option>
                 ))}
@@ -282,13 +282,11 @@ const AppointmentForm = () => {
 
             <Field label="Doctor">
               <select
-                value={`${formData.doctorFirstName} ${formData.doctorLastName}`}
+                value={formData.doctorName}
                 onChange={(e) => {
-                  const [first, last] = e.target.value.split(" ");
                   setFormData({
                     ...formData,
-                    doctorFirstName: first,
-                    doctorLastName: last,
+                    doctorName: e.target.value,
                   });
                 }}
                 className={selectClass}
@@ -304,7 +302,7 @@ const AppointmentForm = () => {
                   .map((doc, i) => (
                     <option
                       key={i}
-                      className="text-black"
+                      className="font-semibold text-gray-900 dark:text-white"
                       value={`${doc.firstName} ${doc.lastName}`}
                     >
                       {doc.firstName} {doc.lastName}

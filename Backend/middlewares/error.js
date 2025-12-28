@@ -11,7 +11,7 @@ export const errorMiddleware = (err, req, res, next) => {
   let error = { ...err };
   error.message = err.message;
 
-  /* ===================== MONGODB DUPLICATE KEY ===================== */
+  // MONGODB DUPLICATE KEY 
   if (err.code === 11000) {
     const field = Object.keys(err.keyValue)[0];
     error = new ErrorHandler(
@@ -20,7 +20,7 @@ export const errorMiddleware = (err, req, res, next) => {
     );
   }
 
-  /* ===================== JWT ERRORS ===================== */
+  //JWT ERRORS 
   if (err.name === "JsonWebTokenError") {
     error = new ErrorHandler("Invalid token. Please login again.", 401);
   }
@@ -29,7 +29,7 @@ export const errorMiddleware = (err, req, res, next) => {
     error = new ErrorHandler("Session expired. Please login again.", 401);
   }
 
-  /* ===================== MONGODB CAST ERROR ===================== */
+  // MONGODB CAST ERROR 
   if (err.name === "CastError") {
     error = new ErrorHandler(
       `Invalid ${err.path}: ${err.value}`,
@@ -37,7 +37,7 @@ export const errorMiddleware = (err, req, res, next) => {
     );
   }
 
-  /* ===================== MONGOOSE VALIDATION ERRORS ===================== */
+  // MONGOOSE VALIDATION ERRORS 
   if (err.name === "ValidationError") {
     const messages = Object.values(err.errors).map(
       (val) => val.message

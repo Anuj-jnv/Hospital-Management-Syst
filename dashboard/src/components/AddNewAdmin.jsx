@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import axios from "axios";
+import { useContext, useState } from "react";
 import { Context } from "../main";
 import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import axios from "axios";
+import { motion } from "framer-motion";
 
 const AddNewAdmin = () => {
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
@@ -21,104 +22,121 @@ const AddNewAdmin = () => {
   const handleAddNewAdmin = async (e) => {
     e.preventDefault();
     try {
-      await axios
-        .post(
-          "http://localhost:4000/api/v1/user/admin/addnew",
-          { firstName, lastName, email, phone, nic, dob, gender, password },
-          {
-            withCredentials: true,
-            headers: { "Content-Type": "application/json" },
-          }
-        )
-        .then((res) => {
-          toast.success(res.data.message);
-          setIsAuthenticated(true);
-          navigateTo("/");
-          setFirstName("");
-          setLastName("");
-          setEmail("");
-          setPhone("");
-          setNic("");
-          setDob("");
-          setGender("");
-          setPassword("");
-        });
+      const { data } = await axios.post(
+        "http://localhost:4000/api/v1/user/admin/addnew",
+        { firstName, lastName, email, phone, nic, dob, gender, password },
+        {
+          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+
+      toast.success(data.message);
+      setIsAuthenticated(true);
+      navigateTo("/");
     } catch (error) {
-      toast.error(error.response.data.message);
+      toast.error(error.response?.data?.message || "Failed to add admin");
     }
   };
 
-  if (!isAuthenticated) {
-    return <Navigate to={"/login"} />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <section className="page">
-      <section className="container form-component add-admin-form">
-      <img src="/logo.jpg" alt="logo" className="logo"/>
-        <h1 className="form-title">ADD NEW ADMIN</h1>
-        <form onSubmit={handleAddNewAdmin}>
-          <div>
-            <input
-              type="text"
-              placeholder="First Name"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="text"
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <input
-              type="number"
-              placeholder="Mobile Number"
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-            />
-          </div>
-          <div>
-            <input
-              type="number"
-              placeholder="NIC"
-              value={nic}
-              onChange={(e) => setNic(e.target.value)}
-            />
-            <input
-              type={"date"}
-              placeholder="Date of Birth"
-              value={dob}
-              onChange={(e) => setDob(e.target.value)}
-            />
-          </div>
-          <div>
-            <select value={gender} onChange={(e) => setGender(e.target.value)}>
-              <option value="">Select Gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-            </select>
-            <input
-              type="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div style={{ justifyContent: "center", alignItems: "center" }}>
-            <button type="submit">ADD NEW ADMIN</button>
-          </div>
-        </form>
-      </section>
-    </section>
+    <motion.section
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45 }}
+      className="max-w-4xl mx-auto space-y-8"
+    >
+      {/* ===== HEADER ===== */}
+      <div>
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+          Add New Admin
+        </h1>
+        <p className="text-gray-600 dark:text-gray-400">
+          Create a new administrator account
+        </p>
+      </div>
+
+      {/* ===== FORM ===== */}
+      <form
+        onSubmit={handleAddNewAdmin}
+        className="
+          bg-white dark:bg-zinc-900
+          border border-gray-200 dark:border-zinc-800
+          rounded-2xl p-8 shadow-sm
+          space-y-6
+        "
+      >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <input
+            className="input"
+            placeholder="First Name"
+            value={firstName}
+            onChange={(e) => setFirstName(e.target.value)}
+          />
+          <input
+            className="input"
+            placeholder="Last Name"
+            value={lastName}
+            onChange={(e) => setLastName(e.target.value)}
+          />
+          <input
+            className="input"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            className="input"
+            placeholder="Phone Number"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />
+          <input
+            className="input"
+            placeholder="NIC"
+            value={nic}
+            onChange={(e) => setNic(e.target.value)}
+          />
+          <input
+            type="date"
+            className="input"
+            value={dob}
+            onChange={(e) => setDob(e.target.value)}
+          />
+          <select
+            className="input"
+            value={gender}
+            onChange={(e) => setGender(e.target.value)}
+          >
+            <option value="">Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+          </select>
+          <input
+            type="password"
+            className="input"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </div>
+
+        {/* ===== SUBMIT ===== */}
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            className="
+              px-8 py-3 rounded-xl font-semibold text-white
+              bg-indigo-600 hover:bg-indigo-700 transition
+            "
+          >
+            Add Admin
+          </button>
+        </div>
+      </form>
+    </motion.section>
   );
 };
 

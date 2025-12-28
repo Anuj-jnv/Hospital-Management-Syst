@@ -6,7 +6,7 @@ import crypto from "crypto";
 
 const userSchema = new mongoose.Schema(
   {
-    /* ================= CORE ACCOUNT ================= */
+    // CORE ACCOUNT 
 
     firstName: {
       type: String,
@@ -75,7 +75,17 @@ const userSchema = new mongoose.Schema(
       maxlength: 20,
       select: false, // sensitive info
     },
-
+   
+  
+  
+  
+  doctorDepartment:{
+    type: String,
+  },
+  docAvatar: {
+    public_id: String,
+    url: String,
+  },
     
 
     

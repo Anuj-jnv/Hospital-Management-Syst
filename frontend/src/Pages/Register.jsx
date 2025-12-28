@@ -58,7 +58,7 @@ const Register = () => {
     }
   };
 
-  if (isAuthenticated) return <Navigate to="/login" />;
+  
 
   return (
     <section className="min-h-screen bg-gray-50 dark:bg-black px-6 py-24 flex items-center justify-center">

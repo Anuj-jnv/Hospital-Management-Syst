@@ -1,5 +1,6 @@
 import React from "react";
 import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
 
 const Hero = ({ title, imageUrl }) => {
   return (
@@ -25,7 +26,8 @@ const Hero = ({ title, imageUrl }) => {
             At AIMT, we prioritize your well-being, ensuring a harmonious
             journey towards optimal health and wellness.
           </p>
-
+         
+         <Link to="/appointment#appointment-form">
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
@@ -33,6 +35,7 @@ const Hero = ({ title, imageUrl }) => {
           >
             Book Appointment
           </motion.button>
+          </Link>
         </motion.div>
 
         {/* Image Section */}
