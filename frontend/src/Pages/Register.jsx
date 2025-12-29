@@ -76,7 +76,7 @@ const Register = () => {
             Create Account
           </h2>
           <p className="text-lg text-gray-700 mt-3">
-            Create your account to access AI Medical Technology
+            Create your account to access CareConnect
           </p>
         </div>
 

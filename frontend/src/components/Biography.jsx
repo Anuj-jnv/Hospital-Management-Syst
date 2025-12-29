@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 
 const Biography = ({ imageUrl }) => {
   return (
-    <section className="w-full py-16 bg-slate-50">
+    <section className="w-full py-12 bg-slate-50">
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
 
         {/* CONTENT SECTION */}

@@ -37,7 +37,7 @@ const Footer = () => {
         {/* BRAND */}
         <motion.div variants={item} className="space-y-4">
           <h3 className="text-2xl font-extrabold tracking-tight text-gray-900">
-            AI Medical Technology
+            CareConnect
           </h3>
           <p className="text-lg text-gray-700 leading-relaxed max-w-sm">
             Technology-driven healthcare built on compassion, precision, and
@@ -130,7 +130,7 @@ const Footer = () => {
             </div>
             <div className="flex items-center gap-4">
               <MdEmail className="text-blue-600" />
-              <span>aimt@gmail.com</span>
+              <span>cc@gmail.com</span>
             </div>
             <div className="flex items-center gap-4">
               <FaLocationArrow className="text-blue-600" />
@@ -142,7 +142,7 @@ const Footer = () => {
 
       {/* BOTTOM BAR */}
       <div className="border-t border-gray-200 py-6 text-center text-base text-gray-600">
-        © {new Date().getFullYear()} AI Medical Technology. All rights
+        © {new Date().getFullYear()} CareConnect. All rights
         reserved.
       </div>
     </footer>

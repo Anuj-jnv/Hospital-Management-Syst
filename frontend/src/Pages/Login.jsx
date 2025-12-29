@@ -78,7 +78,7 @@ const Login = () => {
             Welcome Back
           </h2>
           <p className="text-lg text-gray-700 mt-3">
-            Sign in to continue to AI Medical Technology
+            Sign in to continue to CareConnect
           </p>
         </div>
 

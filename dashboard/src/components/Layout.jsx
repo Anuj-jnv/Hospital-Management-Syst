@@ -3,12 +3,19 @@ import { Outlet } from "react-router-dom";
 
 const AdminLayout = () => {
   return (
-    <div className="flex min-h-screen bg-white dark:bg-black flex">
+    <div className="min-h-screen flex bg-slate-50">
       {/* Sidebar */}
       <Sidebar />
 
       {/* Main Content */}
-      <main className="flex-1 ml-0 lg:ml-64 p-6 transition-all">
+      <main
+        className="
+          flex-1
+          ml-0 lg:ml-64
+          px-6 py-10
+          transition-all
+        "
+      >
         <Outlet />
       </main>
     </div>

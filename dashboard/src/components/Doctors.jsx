@@ -8,15 +8,14 @@ import {
   Mail,
   Phone,
   Calendar,
-  Stethoscope,
   IdCard,
   User,
 } from "lucide-react";
 
-/* ===== INFO ROW COMPONENT ===== */
+/* ===== INFO ROW ===== */
 const InfoRow = ({ icon, label, value }) => (
-  <div className="flex items-center gap-3 text-sm text-gray-700 dark:text-gray-300">
-    <span className="text-indigo-600 dark:text-indigo-400">{icon}</span>
+  <div className="flex items-start gap-3 text-sm text-gray-700">
+    <span className="text-blue-600 mt-0.5">{icon}</span>
     <span className="font-medium">{label}:</span>
     <span className="truncate">{value || "—"}</span>
   </div>
@@ -44,81 +43,87 @@ const Doctors = () => {
   if (!isAuthenticated) return <Navigate to="/login" />;
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 30 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45 }}
-      className="max-w-7xl mx-auto space-y-8"
-    >
-      {/* ===== HEADER ===== */}
-      <div className="flex flex-col gap-1">
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Doctors
-        </h1>
-        <p className="text-gray-600 dark:text-gray-400">
-          All registered medical professionals
-        </p>
-      </div>
+    <section className="min-h-screen bg-slate-50 px-6 py-8">
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className="max-w-7xl mx-auto space-y-10"
+      >
+        {/* ===== HEADER ===== */}
+        <div>
+          <h1 className="text-3xl font-extrabold tracking-tight text-gray-900">
+            Doctors
+          </h1>
+          <p className="text-gray-600 mt-1">
+            All registered medical professionals
+          </p>
+        </div>
 
-      {/* ===== GRID ===== */}
-      {doctors.length ? (
-        <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
-          {doctors.map((doc) => (
-            <motion.div
-              key={doc._id}
-              whileHover={{ y: -6 }}
-              transition={{ duration: 0.25 }}
-              className="
-                group rounded-2xl bg-white dark:bg-zinc-900
-                border border-gray-200 dark:border-zinc-800
-                shadow-sm hover:shadow-xl transition-all overflow-hidden
-              "
-            >
-              {/* ===== AVATAR ===== */}
-              <div className="relative h-56 bg-gradient-to-br from-indigo-100 to-indigo-200 dark:from-zinc-800 dark:to-zinc-900 flex items-center justify-center">
-                <img
-                  src={doc.docAvatar?.url || "/doctor-placeholder.png"}
-                  alt="Doctor"
-                  className="
-                    h-36 w-36 rounded-full object-cover
-                    border-4 border-white dark:border-zinc-900
-                    shadow-md group-hover:scale-105 transition
-                  "
-                />
-              </div>
-
-              {/* ===== CONTENT ===== */}
-              <div className="p-6 space-y-4">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 dark:text-white">
-                    {doc.firstName} {doc.lastName}
-                  </h3>
-                  <p className="text-sm text-indigo-600 dark:text-indigo-400 font-medium">
-                    {doc.doctorDepartment}
-                  </p>
-                </div>
-
-                <div className="space-y-2">
-                  <InfoRow icon={<Mail size={16} />} label="Email" value={doc.email} />
-                  <InfoRow icon={<Phone size={16} />} label="Phone" value={doc.phone} />
-                  <InfoRow
-                    icon={<Calendar size={16} />}
-                    label="DOB"
-                    value={doc.dob?.substring(0, 10)}
+        {/* ===== GRID ===== */}
+        {doctors.length ? (
+          <div className="grid gap-8 sm:grid-cols-2 xl:grid-cols-3">
+            {doctors.map((doc) => (
+              <motion.div
+                key={doc._id}
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="
+                  rounded-2xl bg-white border border-gray-200
+                  shadow-sm hover:shadow-md transition
+                  overflow-hidden
+                "
+              >
+                {/* AVATAR */}
+                <div className="h-48 bg-slate-100 flex items-center justify-center">
+                  <img
+                    src={doc.docAvatar?.url || "/doctor-placeholder.png"}
+                    alt="Doctor"
+                    className="h-32 w-32 rounded-full object-cover"
                   />
-                  <InfoRow icon={<IdCard size={16} />} label="Government ID" value={doc.governmentId} />
-                  <InfoRow icon={<User size={16} />} label="Gender" value={doc.gender} />
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      ) : (
-        <div className="text-center py-20 text-gray-500 dark:text-gray-400">
-          No registered doctors found.
-        </div>
-      )}
-    </motion.section>
+
+                {/* CONTENT */}
+                <div className="p-6 space-y-5">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900">
+                      {doc.firstName} {doc.lastName}
+                    </h3>
+                    <p className="text-sm font-medium text-blue-600">
+                      {doc.doctorDepartment}
+                    </p>
+                  </div>
+
+                  <div className="space-y-2">
+                    <InfoRow icon={<Mail size={16} />} label="Email" value={doc.email} />
+                    <InfoRow icon={<Phone size={16} />} label="Phone" value={doc.phone} />
+                    <InfoRow
+                      icon={<Calendar size={16} />}
+                      label="DOB"
+                      value={doc.dob?.substring(0, 10)}
+                    />
+                    <InfoRow
+                      icon={<IdCard size={16} />}
+                      label="Government ID"
+                      value={doc.governmentId}
+                    />
+                    <InfoRow
+                      icon={<User size={16} />}
+                      label="Gender"
+                      value={doc.gender}
+                    />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-24 text-gray-500">
+            No registered doctors found.
+          </div>
+        )}
+      </motion.div>
+    </section>
   );
 };
 

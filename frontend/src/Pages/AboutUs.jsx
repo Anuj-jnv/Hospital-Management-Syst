@@ -9,7 +9,7 @@ const AboutUs = () => {
     <>
     <Section variant="white">
       <Hero
-        title={"Learn More About Us | AI Medical Technology"}
+        title={"Learn More About Us |  CareConnect"}
         imageUrl={"/about.png"}
       />
     </Section>

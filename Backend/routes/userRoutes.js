@@ -10,9 +10,7 @@ import {
   logoutPatient,
 } from "../controllers/userController.js";
 
-import {
-  postAppointment
-} from "../controllers/appointmentController.js";
+
 
 import { isAuthenticated, authorizeRoles } from "../middlewares/auth.js";
 
@@ -24,8 +22,8 @@ router.get("/doctors", getAllDoctors);
 // Patient routes
 router.post("/patient/register", patientRegister);
 router.post("/patient/login", patientLogin);
-router.get("/patient/me", isAuthenticated, getUserDetails);
-router.post("/post", isAuthenticated, authorizeRoles("Patient"), postAppointment);
+router.get("/patient/me", isAuthenticated, authorizeRoles("Patient"), getUserDetails);
+
 
 
 router.get("/logout", isAuthenticated, logoutPatient);// Both Patient and Admin can logout
@@ -35,6 +33,6 @@ router.get("/logout", isAuthenticated, logoutPatient);// Both Patient and Admin 
 router.post("/admin/login", adminLogin);
 router.post("/admin/addnew", isAuthenticated, authorizeRoles("Admin"), addNewAdmin);
 router.post("/doctor/addnew", isAuthenticated, authorizeRoles("Admin"), addNewDoctor);
-router.get("/admin/me", isAuthenticated, getUserDetails);
+router.get("/admin/me", isAuthenticated, authorizeRoles("Admin"), getUserDetails);
 
 export default router;

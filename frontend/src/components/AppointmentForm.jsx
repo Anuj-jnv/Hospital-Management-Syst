@@ -125,7 +125,7 @@ const AppointmentForm = () => {
   };
 
   return (
-    <section className="min-h-screen bg-slate-50 px-6 py-28">
+    <section className="min-h-screen bg-slate-50 px-6 py-24">
       <motion.div
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}

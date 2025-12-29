@@ -9,7 +9,7 @@ const Appointment = () => {
     <>
     <Section variant="white" >
       <Hero
-        title={"Schedule Your Appointment | AI Medical Technology"}
+        title={"Schedule Your Appointment | CareConnect"}
         imageUrl={"/signin.png"}
       />
     </Section>

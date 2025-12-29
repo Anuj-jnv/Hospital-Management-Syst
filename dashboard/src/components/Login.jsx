@@ -3,10 +3,12 @@ import { Navigate, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { Context } from "../main";
+import { FiEye, FiEyeOff } from "react-icons/fi";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const { isAuthenticated, setIsAuthenticated } = useContext(Context);
   const navigateTo = useNavigate();
@@ -21,9 +23,10 @@ const Login = () => {
     try {
       const { data } = await axios.post(
         "http://localhost:4000/api/v1/user/admin/login",
-        { email, 
-          password, 
-          role: "Admin"
+        {
+          email,
+          password,
+          role: "Admin",
         },
         {
           withCredentials: true,
@@ -42,59 +45,90 @@ const Login = () => {
     }
   };
 
-  if (isAuthenticated) {
-    return <Navigate to="/" />;
-  }
+  if (isAuthenticated) return <Navigate to="/" />;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-900 px-4">
-      <section className="w-full max-w-md bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-8">
+    <section className="min-h-screen flex items-center justify-center bg-slate-50 px-6 py-28">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-10">
 
         {/* Badge */}
         <div className="flex justify-center mb-6">
-          <span className="text-sm font-medium text-emerald-400 border border-emerald-400/40 px-4 py-1 rounded-full">
-            AI Medical Technology
+          <span className="
+  text-base font-extrabold tracking-wide
+  text-gray-900
+  border border-gray-300
+  px-6 py-2
+  rounded-full
+  bg-gray-100
+">
+            CareConnect Admin
           </span>
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-white text-center mb-2">
+        <h1 className="text-3xl font-extrabold tracking-tight text-gray-900 text-center mb-6">
           Admin Login
         </h1>
 
-        <p className="text-sm text-slate-400 text-center mb-6">
+        <p className="text-sm text-gray-600 text-center mb-8">
           Only authorized administrators can access this dashboard
         </p>
 
         {/* Form */}
-        <form onSubmit={handleLogin} className="space-y-4">
-
+        <form onSubmit={handleLogin} className="space-y-5">
+          {/* Email */}
           <input
             type="email"
             placeholder="Admin Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            className="
+              w-full px-4 py-3 rounded-lg
+              border border-gray-300
+              text-gray-900 placeholder-gray-500
+              focus:outline-none focus:ring-2 focus:ring-blue-600
+            "
           />
 
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
+          {/* Password with Eye Toggle */}
+          <div className="relative">
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              className="
+                w-full px-4 py-3 rounded-lg
+                border border-gray-300
+                text-gray-900 placeholder-gray-500
+                focus:outline-none focus:ring-2 focus:ring-blue-600
+              "
+            />
+            <button
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+              className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500 hover:text-blue-600"
+              aria-label="Toggle password visibility"
+            >
+              {showPassword ? <FiEyeOff size={18} /> : <FiEye size={18} />}
+            </button>
+          </div>
 
+          {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg transition duration-200"
+            className="
+              w-full py-3 rounded-full
+              bg-blue-600 hover:bg-blue-700
+              text-white text-lg font-semibold
+              transition
+            "
           >
             Login
           </button>
-
         </form>
-      </section>
-    </div>
+      </div>
+    </section>
   );
 };
 

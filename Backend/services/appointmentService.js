@@ -36,11 +36,15 @@ export const createAppointmentService = async (data, patientId) => {
   }
 
   /* Find doctor */
-  const doctors = await User.find({
-    doctorName: doctorName,
-    role: "Doctor",
-    doctorDepartment: department,
-  });
+
+
+
+
+const doctors = await User.find({
+  patientId,
+  role: "Doctor",
+  doctorDepartment: department,
+});
 
   if (doctors.length === 0) {
     throw new ErrorHandler("Doctor not found", 404);

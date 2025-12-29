@@ -11,7 +11,7 @@ const Home = () => {
       {/* HERO — white background */}
       <Section variant="white" >
         <Hero
-          title="Welcome to AI Medical Technology | Your Trusted Healthcare Provider"
+          title="Welcome to CareConnect | Your Trusted Healthcare Provider"
           imageUrl="/Hero.png"
         />
       </Section>

@@ -19,7 +19,7 @@ const Hero = ({ title, imageUrl }) => {
           </h1>
 
           <p className="text-lg leading-relaxed text-gray-700 max-w-xl">
-            AI Medical Technology is a state-of-the-art healthcare facility
+            CareConnect is a state-of-the-art healthcare facility
             dedicated to providing comprehensive medical services with
             compassion and precision. Our experienced professionals deliver
             personalized care, ensuring patient safety, trust, and long-term
