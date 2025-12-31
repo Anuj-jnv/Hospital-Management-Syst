@@ -21,7 +21,7 @@ const Messages = () => {
         if (fetchedRef.current) return;
         fetchedRef.current = true;
         const { data } = await axios.get(
-          "http://localhost:4000/api/v1/message/admin",
+          "https://hospital-management-syst.onrender.com/api/v1/message/admin",
           { withCredentials: true }
         );
         setMessages(data.messages);

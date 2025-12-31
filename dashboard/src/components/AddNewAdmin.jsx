@@ -42,7 +42,7 @@ const AddNewAdmin = () => {
 
     try {
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/admin/addnew",
+        "https://hospital-management-syst.onrender.com/api/v1/user/admin/addnew",
         formData,
         {
           withCredentials: true,

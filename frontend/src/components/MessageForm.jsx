@@ -25,7 +25,7 @@ const MessageForm = () => {
     try {
       setLoading(true);
       await axios.post(
-        "http://localhost:4000/api/v1/message/send",
+        "https://hospital-management-syst.onrender.com/api/v1/message/send",
         { firstName, lastName, email, phone, message },
         { withCredentials: true }
       );

@@ -38,7 +38,7 @@ const Login = () => {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        "http://localhost:4000/api/v1/user/patient/login",
+        "https://hospital-management-syst.onrender.com/api/v1/user/patient/login",
         {
           email: formData.email,
           password: formData.password,

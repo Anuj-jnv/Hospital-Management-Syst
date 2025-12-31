@@ -23,7 +23,7 @@ const SidebarContent = ({ close }) => {
   const logout = async () => {
     try {
       const { data } = await axios.get(
-        "http://localhost:4000/api/v1/user/logout",
+        "https://hospital-management-syst.onrender.com/api/v1/user/logout",
         { withCredentials: true }
       );
       toast.success(data.message);

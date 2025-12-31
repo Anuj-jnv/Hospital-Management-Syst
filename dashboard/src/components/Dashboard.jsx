@@ -17,7 +17,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:4000/api/v1/appointment/getall", {
+      .get("https://hospital-management-syst.onrender.com/api/v1/appointment/getall", {
         withCredentials: true,
       })
       .then((res) => setAppointments(res.data.appointments))
@@ -27,7 +27,7 @@ const Dashboard = () => {
   const updateStatus = async (id, status) => {
     try {
       const { data } = await axios.put(
-        `http://localhost:4000/api/v1/appointment/update/${id}`,
+        `https://hospital-management-syst.onrender.com/api/v1/appointment/update/${id}`,
         { status },
         { withCredentials: true }
       );
