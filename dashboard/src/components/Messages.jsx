@@ -173,7 +173,7 @@ const Messages = () => {
               <button
                 className="px-5 py-2 rounded-lg text-white font-semibold bg-blue-600 hover:bg-blue-700"
                 onClick={() => {
-                  toast.info("Reply UI ready (backend can be added)");
+                  toast.info("This Reply feature (Comming Soon)");
                   setActiveReply(null);
                 }}
               >

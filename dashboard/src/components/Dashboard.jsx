@@ -118,10 +118,10 @@ const Dashboard = () => {
                       {a.firstName} {a.lastName}
                     </Td>
                     <Td>
-                      {a.doctor.firstName} {a.doctor.lastName}
+                      {a.doctorName}
                     </Td>
                     <Td>{a.department}</Td>
-                    <Td>{a.appointment_date?.substring(0, 10)}</Td>
+                    <Td>{a.appointmentDate?.substring(0, 10)}</Td>
 
                     {/* STATUS */}
                     <Td>

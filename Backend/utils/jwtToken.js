@@ -5,9 +5,10 @@ export const generateToken = (user, message, statusCode, res) => {
     .status(statusCode)
     .cookie("token", token, {
       httpOnly: true,
-      secure: false,
-      sameSite: "Lax",
-      path: "/",
+      secure: true,
+      sameSite: "none",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+      
       
     })
     .json({

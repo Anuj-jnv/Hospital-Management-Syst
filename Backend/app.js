@@ -16,17 +16,26 @@ config({ path: "./config/config.env" });
 
 connectDB();
 
-// CORS CONFIGURATION
+const allowedOrigins = [
+  process.env.FRONTEND_URL_ONE,
+  process.env.FRONTEND_URL_TWO,
+];
+
 app.use(
   cors({
-    origin: [
-      process.env.FRONTEND_URL_ONE,
-      process.env.FRONTEND_URL_TWO,
-    ],
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
     methods: ["GET", "POST", "PUT", "DELETE"],
-    credentials: true, // IMPORTANT for cookies
+    credentials: true,
   })
 );
+app.set("trust proxy", 1);
+
 
 // MIDDLEWARES
 app.use(cookieParser());

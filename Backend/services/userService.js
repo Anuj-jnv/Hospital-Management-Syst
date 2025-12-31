@@ -91,7 +91,10 @@ export const addDoctorService = async (data, files) => {
     firstName,
     lastName,
     email,
-    password,
+    phone,
+    governmentId,
+    dob,
+    gender,
     doctorDepartment,
   } = data;
 
@@ -119,6 +122,9 @@ export const addDoctorService = async (data, files) => {
     lastName,
     email,
     password,
+    gender,
+    dob,
+    phone,
     role: "Doctor",
     doctorDepartment,
     docAvatar: {
@@ -129,10 +135,14 @@ export const addDoctorService = async (data, files) => {
 };
 
 // GET DOCTORS
-export const getDoctorsService = async () => {
-  return await User.find({ role: "Doctor" })
-    .select("firstName lastName doctorDepartment email phone docAvatar")
-    .sort({ lastName: 1 })
+export const getDoctorsService = async (department) => {
+  const filter = { role: "Doctor" };
+  if (department) filter.doctorDepartment = department;
+
+  return await User.find(filter)
+    .select("firstName lastName doctorDepartment gender governmentId email phone docAvatar")
+    .sort({ lastName: 1, firstName: 1 })
     .lean();
 };
+
 

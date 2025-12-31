@@ -41,10 +41,17 @@ export const createAppointmentService = async (data, patientId) => {
 
 
 const doctors = await User.find({
-  patientId,
   role: "Doctor",
   doctorDepartment: department,
+  $expr: {
+    $regexMatch: {
+      input: { $concat: ["$firstName", " ", "$lastName"] },
+      regex: `^${doctorName}$`,
+      options: "i",
+    },
+  },
 });
+
 
   if (doctors.length === 0) {
     throw new ErrorHandler("Doctor not found", 404);
@@ -69,7 +76,7 @@ const doctors = await User.find({
     gender,
     appointmentDate,
     department,
-    doctor: doctorName,
+    doctorName,
     hasVisited,
     address,
     doctorId: doctor._id,
