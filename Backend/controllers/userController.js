@@ -83,9 +83,9 @@ export const logoutPatient = catchAsyncErrors(async (req, res) => {
     .status(200)
     .clearCookie("token", {
       httpOnly: true,
-      sameSite: "Lax",        // MUST MATCH LOGIN
-      secure: false,          // MUST MATCH LOGIN (true only in HTTPS)
-      path: "/",             // MUST MATCH LOGIN
+      sameSite: "none",        // MUST MATCH LOGIN
+      secure: true,  
+      path: "/",       // MUST MATCH LOGIN (true only in HTTPS)            // MUST MATCH LOGIN
     })
     .json({
       success: true,
