@@ -59,14 +59,14 @@ The architecture follows clean separation between frontend and backend, enabling
 
 ### 1️⃣ Homepage – Patient Appointment Registration
 
-![Homepage](Project_Screenshots/HMS_Homepage.png)
+![Homepage](Projects_Screenshots/HMS_Homepage.png)
 ## To Take Appointment From Doctors
-![Homepage](Project_Screenshots/HMS_Appointment.png)
+![Homepage](Projects_Screenshots/HMS_Appointment.png)
 
 
 ### 2️⃣ Admin Dashboard – Appointment Management
 
-![Admin Dashboard](Project_Screenshots/HMS_Admin.png)
+![Admin Dashboard](Projects_Screenshots/HMS_Admin.png)
 
 
 
